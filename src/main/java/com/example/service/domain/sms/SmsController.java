@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class SmsController {
 
@@ -24,7 +23,7 @@ public class SmsController {
         String toNumber = request.getPhoneNumber();
         String inputCode = request.getCode();
 
-        if (smsSolaApiService.verifySms(toNumber,inputCode)) {
+        if (smsSolaApiService.verifySms(toNumber, inputCode)) {
             return ResponseEntity.ok("인증 성공!");
         } else {
             return ResponseEntity.badRequest().body("인증번호가 틀렸거나 만료되었습니다.");
