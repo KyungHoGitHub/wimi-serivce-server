@@ -23,9 +23,15 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 server:
+  url: http://192.168.0.7:8082  # 이게 있어야 함
   port: 8082
-
 solapi:
   api-key: NCSRQPGIRN51K75S
   api-secret : V76OVL09JQXXNZWXAKXYMFMZHGKMKI96
   from-number : 01090244539
+
+jwt:
+  public-key-path: ${JWT_PUBLIC_KEY_PATH:public.pem}
+
+file:
+  upload-dir: /app/images
