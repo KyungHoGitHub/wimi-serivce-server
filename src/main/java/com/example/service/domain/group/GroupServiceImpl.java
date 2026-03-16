@@ -10,8 +10,16 @@ public class GroupServiceImpl implements GroupService{
     private final GroupRepository groupRepository;
 
     @Override
-    public void createGroup(GroupRequestDTO requestDTO) {
+    public Group createGroup(GroupCreateRequestDTO requestDTO) {
 
+        Group group = Group.builder()
+                .name(requestDTO.getName())
+                .description(requestDTO.getDescription())
+                .category(requestDTO.getCategory())
+                .profileImageUrl(requestDTO.getProfileImageUrl())
+                .createdBy(requestDTO.getCreatedBy())
+                .build();
 
+        return groupRepository.save(group);
     }
 }

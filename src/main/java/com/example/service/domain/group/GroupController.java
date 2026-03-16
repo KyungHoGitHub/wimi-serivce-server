@@ -10,7 +10,8 @@ public class GroupController {
     private final GroupService groupService;
 
     @PostMapping
-    public ResponseEntity<?> createGroup(){
+    public ResponseEntity<?> createGroup(@RequestBody GroupCreateRequestDTO requestDTO){
+
         return null;
     }
 

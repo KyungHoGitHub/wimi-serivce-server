@@ -17,6 +17,7 @@ public class Group {
     @Id
     private int id;
     private String name;
+    private String description;
 
     @Enumerated(EnumType.STRING)
     private Category category;
