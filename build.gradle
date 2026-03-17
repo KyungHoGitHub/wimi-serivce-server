@@ -18,6 +18,13 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    all {
+        resolutionStrategy {
+            force 'io.jsonwebtoken:jjwt-api:0.12.6'
+            force 'io.jsonwebtoken:jjwt-impl:0.12.6'
+            force 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+        }
+    }
 }
 
 repositories {
