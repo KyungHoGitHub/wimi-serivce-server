@@ -2,6 +2,7 @@ package com.example.service.domain.group;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,10 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class GroupApplicationController {
-    private  final GroupApplicationService groupApplicationService;
+    private final GroupApplicationService groupApplicationService;
 
-    @PostMapping("/group/group-member")
-    ResponseEntity<?> createGroupAndGroupMember(@RequestBody GroupCreateRequestDTO requestDTO){
+    @PostMapping("/api/group/group-member")
+    ResponseEntity<?> createGroupAndGroupMember(
+            @RequestBody GroupCreateRequestDTO requestDTO,
+            @AuthenticationPrincipal String userId) {
+        requestDTO.setCreatedBy(userId);
         groupApplicationService.createGroup(requestDTO);
         return ResponseEntity.ok("suceess");
     }

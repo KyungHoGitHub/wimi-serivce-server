@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/send", "/verify","/api/group/image").permitAll() // 인증 불필요
+                        .requestMatchers("/send", "/verify","/api/group/image","/group/group-member","/images/**").permitAll() // 인증 불필요
                         .anyRequest().authenticated()                    // 나머지 인증 필요
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

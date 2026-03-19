@@ -2,7 +2,10 @@ package com.example.service.domain.group;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,9 +18,10 @@ public class GroupController {
         return null;
     }
 
-    @GetMapping
-    public ResponseEntity<?> allGroups(){
-        return null;
+    @GetMapping("/api/groups")
+    public ResponseEntity<List<Group>> allGroups(@AuthenticationPrincipal String userId ){
+
+        return ResponseEntity.ok(groupService.getGroups(userId));
     }
 
     @DeleteMapping

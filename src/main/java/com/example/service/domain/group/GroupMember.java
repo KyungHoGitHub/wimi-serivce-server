@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 public class GroupMember {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name="group_id")

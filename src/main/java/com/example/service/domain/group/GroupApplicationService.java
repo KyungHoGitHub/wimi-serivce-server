@@ -14,8 +14,10 @@ public class GroupApplicationService {
 
     public void createGroup(GroupCreateRequestDTO requestDTO) {
 
+        // 1 group 생성
         Group group = groupService.createGroup(requestDTO);
 
+        // 2 groupMember 생성
         groupMemberService.createGroupMember(GroupMemberCreateRequestDTO.builder()
                 .groupId(group.getId())
                 .userId(group.getCreatedBy())

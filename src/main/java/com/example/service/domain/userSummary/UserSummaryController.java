@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,5 +21,10 @@ public class UserSummaryController {
                 .orElseThrow(()-> new RuntimeException("user not found"));
 
         return ResponseEntity.ok(userSummary);
+    }
+
+    @PostMapping("api/user/profile-image")
+    public ResponseEntity<?> uploadProfileImage(){
+        return null;
     }
 }
