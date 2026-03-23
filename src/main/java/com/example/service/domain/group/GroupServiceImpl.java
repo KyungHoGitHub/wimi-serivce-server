@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +34,13 @@ public class GroupServiceImpl implements GroupService {
 
         return groupRepository.findByIdIn(groupIds);
 
+    }
+
+    @Override
+    public Group getGroupDetail(int groupId) {
+        Optional<Group> group = groupRepository.findById(groupId).or(()-> Optional.empty());
+
+        return groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group not found: " + groupId));
     }
 }

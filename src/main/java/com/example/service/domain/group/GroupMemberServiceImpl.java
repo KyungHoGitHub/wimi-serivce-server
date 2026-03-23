@@ -33,4 +33,10 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
         return groupIds;
     }
+
+    @Override
+    public List<GroupMemberResponse> getGroupMemberList(Integer groupId) {
+
+        return groupMemberRepository.findMembersWithName(groupId);
+    }
 }

@@ -24,6 +24,11 @@ public class GroupController {
         return ResponseEntity.ok(groupService.getGroups(userId));
     }
 
+    @GetMapping("/api/groups/{groupId}")
+    public ResponseEntity<Group> getGroupDetail(@PathVariable("groupId") int groupId){
+        return ResponseEntity.ok(groupService.getGroupDetail(groupId));
+    }
+
     @DeleteMapping
     public ResponseEntity<?> deleteGroup(){
         return null;

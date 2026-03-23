@@ -6,4 +6,6 @@ public interface GroupService {
     Group createGroup(GroupCreateRequestDTO requestDTO);
 
     List<Group> getGroups(String userId);
+
+    Group getGroupDetail(int groupId);
 }

@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserSummaryRepository extends JpaRepository<UserSummary, String> {
+    UserSummary findByPhoneNumber(String phoneNumber);
 }

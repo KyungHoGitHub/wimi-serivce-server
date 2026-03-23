@@ -26,7 +26,7 @@ public class UploadController {
     @PostMapping("/api/group/image")
     public ResponseEntity<Map<String,String>> uploadImage(@RequestParam("file")MultipartFile file)throws IOException{
 
-        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+      String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         Path savePath = Paths.get(uploadDir, fileName);
 
         Files.createDirectories(savePath.getParent());
