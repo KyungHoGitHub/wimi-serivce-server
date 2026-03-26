@@ -7,5 +7,5 @@ public interface GroupService {
 
     List<Group> getGroups(String userId);
 
-    Group getGroupDetail(int groupId);
+    Group getGroupDetail(Long groupId);
 }

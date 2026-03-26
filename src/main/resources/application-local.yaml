@@ -13,9 +13,14 @@ spring:
     url: jdbc:postgresql://localhost:5435/service_db
     username: appuser
     password: secret_password
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 1
+    locations: classpath:db/migration
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -27,7 +32,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 server:
-  url: http://192.168.0.5:8082  # 이게 있어야 함
+  url: http://192.168.0.6:8082  # 이게 있어야 함
   port: 8082
 solapi:
   api-key: NCSRQPGIRN51K75S
@@ -39,3 +44,9 @@ jwt:
 
 file:
   upload-dir: ${user.home}/uploads/images
+
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG
+      org.springframework: DEBUG
+      com.zaxxer.hikari: DEBUG

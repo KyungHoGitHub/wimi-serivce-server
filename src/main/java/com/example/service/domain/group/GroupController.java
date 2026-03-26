@@ -25,7 +25,7 @@ public class GroupController {
     }
 
     @GetMapping("/api/groups/{groupId}")
-    public ResponseEntity<Group> getGroupDetail(@PathVariable("groupId") int groupId){
+    public ResponseEntity<Group> getGroupDetail(@PathVariable("groupId") Long groupId){
         return ResponseEntity.ok(groupService.getGroupDetail(groupId));
     }
 

@@ -1,5 +1,6 @@
-package com.example.service.domain.group;
+package com.example.service.domain.groupMember;
 
+import com.example.service.domain.group.GroupMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,8 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     }
 
     @Override
-    public List<Integer> getGroupMembers(String userId) {
-        List<Integer> groupIds = groupMemberRepository.findByUserId(userId)
+    public List<Long> getGroupMembers(String userId) {
+        List<Long> groupIds = groupMemberRepository.findByUserId(userId)
                 .stream()
                 .map(GroupMember::getGroupId)
                 .toList();
@@ -35,8 +36,13 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     }
 
     @Override
-    public List<GroupMemberResponse> getGroupMemberList(Integer groupId) {
+    public List<GroupMemberResponse> getGroupMemberList(Long groupId) {
 
         return groupMemberRepository.findMembersWithName(groupId);
+    }
+
+    @Override
+    public GroupMember save(GroupMember groupMember) {
+       return groupMemberRepository.save(groupMember);
     }
 }

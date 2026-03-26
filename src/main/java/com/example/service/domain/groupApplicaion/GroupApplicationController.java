@@ -1,5 +1,6 @@
-package com.example.service.domain.group;
+package com.example.service.domain.groupApplicaion;
 
+import com.example.service.domain.group.GroupCreateRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

@@ -1,5 +1,6 @@
 package com.example.service.domain.group;
 
+import com.example.service.domain.groupMember.GroupMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +31,18 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<Group> getGroups(String userId) {
 
-        List<Integer> groupIds = groupMemberService.getGroupMembers(userId);
+        List<Long> groupIds = groupMemberService.getGroupMembers(userId);
 
         return groupRepository.findByIdIn(groupIds);
 
     }
 
     @Override
-    public Group getGroupDetail(int groupId) {
+    public Group getGroupDetail(Long groupId) {
         Optional<Group> group = groupRepository.findById(groupId).or(()-> Optional.empty());
 
         return groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found: " + groupId));
     }
 }
+

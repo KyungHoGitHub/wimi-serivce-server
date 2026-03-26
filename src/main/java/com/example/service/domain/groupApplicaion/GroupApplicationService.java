@@ -1,5 +1,8 @@
-package com.example.service.domain.group;
+package com.example.service.domain.groupApplicaion;
 
+import com.example.service.domain.group.*;
+import com.example.service.domain.groupMember.GroupMemberCreateRequestDTO;
+import com.example.service.domain.groupMember.GroupMemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

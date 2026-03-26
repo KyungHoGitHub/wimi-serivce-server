@@ -1,5 +1,7 @@
-package com.example.service.domain.group;
+package com.example.service.domain.groupMember;
 
+import com.example.service.domain.group.Role;
+import com.example.service.domain.group.Status;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class GroupMemberCreateRequestDTO {
-    private int groupId;
+    private Long groupId;
     private String userId;
     private Role role;
     private Status status;

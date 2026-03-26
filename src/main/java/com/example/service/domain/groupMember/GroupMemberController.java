@@ -1,4 +1,4 @@
-package com.example.service.domain.group;
+package com.example.service.domain.groupMember;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ public class GroupMemberController {
     private final GroupMemberService groupMemberService;
 
     @GetMapping("/api/group-member-list")
-    public ResponseEntity<List<GroupMemberResponse>> getGroupMemberList(Integer groupId){
+    public ResponseEntity<List<GroupMemberResponse>> getGroupMemberList(Long groupId){
         return ResponseEntity.ok(groupMemberService.getGroupMemberList(groupId));
     }
 }
