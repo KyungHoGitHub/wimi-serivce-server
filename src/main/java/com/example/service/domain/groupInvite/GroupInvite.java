@@ -18,7 +18,7 @@ public class GroupInvite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="inited_user_id")
+    @Column(name="invited_user_id")
     private String invitedUserId;
 
     @Column(name="invited_email")

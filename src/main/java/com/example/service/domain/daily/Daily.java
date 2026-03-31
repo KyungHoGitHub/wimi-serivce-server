@@ -1,34 +1,39 @@
-package com.example.service.domain.group;
-
+package com.example.service.domain.daily;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "groups")
-public class Group {
+@Builder
+@Getter
+@NoArgsConstructor
+public class Daily {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String description;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    @Column(name="group_id")
+    private Long groupId;
 
-    @Column(name= "profile_image_url")
-    private String profileImageUrl;
+    @Column(name="created_user_id")
+    private String createdUserId;
 
-    @Column(name = "created_by")
-    private String createdBy;
+    private String title;
+
+    private String content;
+
+    @Column(name="location_tag")
+    private String locationTag;
+
+    private String scope;
 
     @CreationTimestamp
     @Column(name="created_at")

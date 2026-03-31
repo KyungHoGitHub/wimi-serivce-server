@@ -1,34 +1,35 @@
-package com.example.service.domain.group;
-
+package com.example.service.domain.dailyComment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "groups")
-public class Group {
+@Table(name = "daily_comment")
+public class DailyComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String description;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    @Column(name="daily_id")
+    private Long dailyId;
 
-    @Column(name= "profile_image_url")
-    private String profileImageUrl;
+    @Column(name="user_id")
+    private String userId;
 
-    @Column(name = "created_by")
-    private String createdBy;
+    @Column(name="parent_id")
+    private Long parentId;  // 대댓글용, 일반 댓글은 null
+    private String content;
 
     @CreationTimestamp
     @Column(name="created_at")
