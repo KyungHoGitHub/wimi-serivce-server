@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> {
     List<GroupMember> findByUserId(String userId);
-
+    int countByGroupId(Long groupId);
     List<GroupMember> findByGroupId(Long groupId);
 
     @Query("""

@@ -1,5 +1,6 @@
 package com.example.service.domain.dailyApplicaion;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,5 +15,6 @@ public class DailyResponseDTO {
     private String title;
     private String content;
     private String imageUrl;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
 }

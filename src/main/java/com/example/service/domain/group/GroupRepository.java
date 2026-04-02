@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
     List<Group> findByIdIn(List<Long> groupIds);
+    void deleteByIdAndCreatedBy(Long id, String createdBy);
 }

@@ -1,11 +1,14 @@
 package com.example.service.domain.group;
 
+import com.example.service.domain.groupMember.GroupMemberRepository;
 import com.example.service.domain.groupMember.GroupMemberService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -13,7 +16,7 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupMemberService groupMemberService;
     private final GroupRepository groupRepository;
-
+    private  final GroupMemberRepository groupMemberRepository;
     @Override
     public Group createGroup(GroupCreateRequestDTO requestDTO) {
 
@@ -29,11 +32,23 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> getGroups(String userId) {
+    public List<GroupListResponseDTO> getGroups(String userId) {
 
         List<Long> groupIds = groupMemberService.getGroupMembers(userId);
-
-        return groupRepository.findByIdIn(groupIds);
+        List<Group> groups = groupRepository.findByIdIn(groupIds);
+        return groups.stream()
+                .map(group -> GroupListResponseDTO.builder()
+                        .id(group.getId())
+                        .name(group.getName())
+                        .description(group.getDescription())
+                        .category(group.getCategory())
+                        .profileImageUrl(group.getProfileImageUrl())
+                        .createdBy(group.getCreatedBy())
+                        .createdAt(group.getCreatedAt())
+                        .memberCount(groupMemberRepository.countByGroupId(group.getId())) // 추가
+                        .build()
+                )
+                .collect(Collectors.toList());
 
     }
 
@@ -43,6 +58,12 @@ public class GroupServiceImpl implements GroupService {
 
         return groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found: " + groupId));
+    }
+
+    @Transactional
+    @Override
+    public void deleteGroup(Long groupId, String userId) {
+        groupRepository.deleteByIdAndCreatedBy(groupId,userId);
     }
 }
 

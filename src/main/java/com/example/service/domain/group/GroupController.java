@@ -19,7 +19,7 @@ public class GroupController {
     }
 
     @GetMapping("/api/groups")
-    public ResponseEntity<List<Group>> allGroups(@AuthenticationPrincipal String userId ){
+    public ResponseEntity<List<GroupListResponseDTO>> allGroups(@AuthenticationPrincipal String userId ){
 
         return ResponseEntity.ok(groupService.getGroups(userId));
     }
@@ -29,9 +29,10 @@ public class GroupController {
         return ResponseEntity.ok(groupService.getGroupDetail(groupId));
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteGroup(){
-        return null;
+    @DeleteMapping("/api/group/{groupId}")  // ✅ groupId로 통일
+    public ResponseEntity<?> deleteGroup(@PathVariable("groupId") Long groupId, @AuthenticationPrincipal String userId) {
+        groupService.deleteGroup(groupId, userId);
+        return ResponseEntity.ok("success");
     }
 
     @PutMapping
