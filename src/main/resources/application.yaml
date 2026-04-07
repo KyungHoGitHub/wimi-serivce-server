@@ -10,7 +10,7 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASSWORD}
   flyway:
-    enabled: false
+    enabled: true
     baseline-on-migrate: true
     baseline-version: 1
     locations: classpath:db/migration
@@ -36,6 +36,14 @@ solapi:
   api-secret : V76OVL09JQXXNZWXAKXYMFMZHGKMKI96
   from-number : 01090244539
 
+cloud:
+  aws:
+    s3:
+      bucket: wimi-dev-storage
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
 jwt:
   public-key-path: ${JWT_PUBLIC_KEY_PATH:public.pem}
 
