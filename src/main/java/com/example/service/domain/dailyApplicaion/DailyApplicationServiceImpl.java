@@ -43,6 +43,8 @@ public class DailyApplicationServiceImpl implements DailyApplicationService {
                         .content(p.getContent())
                         .imageUrl(p.getImageUrl())
                         .createdAt(p.getCreatedAt())
+                        .commentCount(p.getCommentCount())
+                        .likeCount(p.getLikeCount())
                         .build())
                 .toList();
     }

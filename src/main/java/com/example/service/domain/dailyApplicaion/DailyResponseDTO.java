@@ -17,4 +17,6 @@ public class DailyResponseDTO {
     private String imageUrl;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
+    private Long commentCount;  // 추가
+    private Long likeCount;     // 추가
 }

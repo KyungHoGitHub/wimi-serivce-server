@@ -17,7 +17,6 @@ public class DailyServiceImpl implements DailyService {
                 .groupId(requestDTO.getGroupId())
                 .createdUserId(requestDTO.getCreateUserId())
                 .content(requestDTO.getContent())
-                .title(requestDTO.getTitle())
                 .scope(requestDTO.getScope())
                 .build();
 

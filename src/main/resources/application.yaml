@@ -44,6 +44,7 @@ cloud:
       auto: false
     region:
       static: ap-northeast-2
+   
 jwt:
   public-key-path: ${JWT_PUBLIC_KEY_PATH:public.pem}
 

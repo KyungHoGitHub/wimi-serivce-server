@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
+
 @Entity
 @AllArgsConstructor
 @Builder
@@ -29,18 +31,18 @@ public class Meeting {
     @CreationTimestamp
     @Column(name = "start_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private String startAt;
+    private LocalDateTime startAt;
 
     @CreationTimestamp
     @Column(name = "end_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private String endAt;
+    private LocalDateTime endAt;
 
     @Column(name = "created_by")
-    private Long createdBy;
+    private String createdBy;
 
     @CreationTimestamp
     @Column(name = "created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private String createdAt;
+    private LocalDateTime createdAt;
 }

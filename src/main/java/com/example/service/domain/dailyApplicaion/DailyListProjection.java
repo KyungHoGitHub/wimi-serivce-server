@@ -7,4 +7,6 @@ public interface DailyListProjection {
     String getCreatedUserId();
     String getImageUrl();
     java.time.LocalDateTime getCreatedAt();
+    Long getCommentCount();  // 추가
+    Long getLikeCount();
 }
