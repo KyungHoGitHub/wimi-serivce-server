@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,9 +26,16 @@ public class DailyApplicationController {
     }
 
     @GetMapping("/api/daily")
-    public ResponseEntity<List<DailyResponseDTO>> getDailyList(@AuthenticationPrincipal String userId){
-        return ResponseEntity.ok(dailyApplicationService.getDailyList(userId));
+    public ResponseEntity<List<DailyResponseDTO>> getDailyList(
+            @AuthenticationPrincipal String userId,
+            @RequestParam(required = false) Integer limit
+    ) {
+        List<DailyResponseDTO> result = dailyApplicationService.getDailyList(userId);
 
+        if (limit != null) {
+            return ResponseEntity.ok(result.stream().limit(limit).collect(Collectors.toList()));
+        }
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/api/daily/{dailyId}")

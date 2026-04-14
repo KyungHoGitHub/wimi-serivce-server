@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
   application:
     name: service
   data:
@@ -44,7 +48,7 @@ cloud:
       auto: false
     region:
       static: ap-northeast-2
-   
+
 jwt:
   public-key-path: ${JWT_PUBLIC_KEY_PATH:public.pem}
 

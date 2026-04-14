@@ -4,6 +4,7 @@ public interface DailyListProjection {
     Long getId();
     String getTitle();
     String getContent();
+    String getName();
     String getCreatedUserId();
     String getImageUrl();
     java.time.LocalDateTime getCreatedAt();

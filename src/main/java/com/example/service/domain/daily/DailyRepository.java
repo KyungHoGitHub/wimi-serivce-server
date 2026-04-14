@@ -39,12 +39,14 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
             SELECT 
                 d.id,
                 d.title,
+                g.name,            
                 d.content,
                 d.created_user_id AS createdUserId,
                 d.created_at AS createdAt,
                 di.url AS imageUrl
             FROM daily d
             LEFT JOIN daily_image di ON d.id = di.daily_id
+            INNER JOIN groups g ON d.group_id = g.id
             WHERE d.id = :dailyId
             """, nativeQuery = true)
     Optional<DailyListProjection> findDailyById(@Param("dailyId") Long dailyId);

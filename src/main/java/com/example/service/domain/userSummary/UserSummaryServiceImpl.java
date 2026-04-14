@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 public class UserSummaryServiceImpl implements UserSummaryService {
@@ -21,9 +23,14 @@ public class UserSummaryServiceImpl implements UserSummaryService {
 
     @Override
     @Transactional
-    public UserSummary updateUserProfile(String imageUrl, String userId) {
-        userSummaryRepository.updateProfileImage(imageUrl, userId);
-        return userSummaryRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+    public UserSummary updateUserProfile(UserSummaryUpdateRequestDTO requestDTO, String userId) throws IOException {
+        UserSummary userSummary = userSummaryRepository.findById(userId).orElseThrow();
+        if (requestDTO.getProfileImage() != null && !requestDTO.getProfileImage().isEmpty()) {
+            String url = s3Serivce.upload(requestDTO.getProfileImage(), "profiles");
+            userSummary.setProfileImageUrl(url);
+        }
+        userSummary.setNickname(requestDTO.getNickname());
+        userSummary.setDescription(requestDTO.getDescription());
+       return userSummaryRepository.save(userSummary);
     }
 }

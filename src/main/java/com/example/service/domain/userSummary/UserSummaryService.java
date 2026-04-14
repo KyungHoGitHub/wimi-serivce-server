@@ -2,7 +2,9 @@ package com.example.service.domain.userSummary;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 public interface UserSummaryService {
     UserSummary getUserSummary(String phoneNumber);
-    UserSummary updateUserProfile(String imageUrl, String userId);
+    UserSummary updateUserProfile(UserSummaryUpdateRequestDTO imageUrl, String userId) throws IOException;
 }

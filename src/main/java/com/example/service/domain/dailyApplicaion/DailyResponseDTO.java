@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class DailyResponseDTO {
     private Long id;
     private String title;
+    private String name;
     private String content;
     private String imageUrl;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")

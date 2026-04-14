@@ -1,10 +1,12 @@
 package com.example.service.domain.group;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -35,9 +37,10 @@ public class GroupController {
         return ResponseEntity.ok("success");
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateGroup(){
-        return null;
+    @PatchMapping(value="/api/group/modify/{groupId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateGroup(@PathVariable("groupId")Long groupId,@ModelAttribute GroupUpdateRequestDTO requestDTO) throws IOException {
+        groupService.updateGroup(groupId,requestDTO);
+        return ResponseEntity.ok("success");
     }
 
 }

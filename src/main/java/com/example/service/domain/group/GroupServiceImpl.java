@@ -2,10 +2,12 @@ package com.example.service.domain.group;
 
 import com.example.service.domain.groupMember.GroupMemberRepository;
 import com.example.service.domain.groupMember.GroupMemberService;
+import com.example.service.domain.s3.S3Serivce;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,6 +19,8 @@ public class GroupServiceImpl implements GroupService {
     private final GroupMemberService groupMemberService;
     private final GroupRepository groupRepository;
     private  final GroupMemberRepository groupMemberRepository;
+    private final S3Serivce s3Serivce;
+
     @Override
     public Group createGroup(GroupCreateRequestDTO requestDTO) {
 
@@ -64,6 +68,20 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public void deleteGroup(Long groupId, String userId) {
         groupRepository.deleteByIdAndCreatedBy(groupId,userId);
+    }
+
+    @Override
+    public Group updateGroup(Long groupId, GroupUpdateRequestDTO requestDTO) throws IOException {
+
+        Group group = groupRepository.findById(groupId).orElseThrow(()-> new RuntimeException("Group not found: " + groupId));
+
+        if (requestDTO.getImage() != null && !requestDTO.getImage().isEmpty()) {
+            String url = s3Serivce.upload(requestDTO.getImage(), "profiles");
+            group.setProfileImageUrl(url);
+        }
+        group.setName(requestDTO.getName());
+        group.setDescription(requestDTO.getContent());
+        return groupRepository.save(group);
     }
 }
 

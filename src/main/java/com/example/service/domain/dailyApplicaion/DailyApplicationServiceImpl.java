@@ -55,6 +55,7 @@ public class DailyApplicationServiceImpl implements DailyApplicationService {
                 .map(p -> DailyResponseDTO.builder()
                         .id(p.getId())
                         .title(p.getTitle())
+                        .name(p.getName())
                         .content(p.getContent())
                         .imageUrl(p.getImageUrl())
                         .createdAt(p.getCreatedAt())

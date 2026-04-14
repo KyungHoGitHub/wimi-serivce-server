@@ -3,6 +3,7 @@ package com.example.service.domain.userSummary;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +37,13 @@ public class UserSummaryController {
         return ResponseEntity.ok(userSummary);
     }
 
-    @PostMapping("api/user/profile-image")
-    public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file, @AuthenticationPrincipal String userId) throws IOException {
-        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path savePath = Paths.get(uploadDir, fileName);
+    @PatchMapping(value = "/api/user/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadProfileImage( @AuthenticationPrincipal String userId, @ModelAttribute UserSummaryUpdateRequestDTO requestDTO) throws IOException {
 
-        Files.createDirectories(savePath.getParent());
-        file.transferTo(savePath.toFile());
-
-        String imageUrl = serverUrl + "/images/" + fileName;
-
-        return ResponseEntity.ok(userSummaryService.updateUserProfile(imageUrl, userId));
+        System.out.println("nickname: " + requestDTO.getNickname());
+        System.out.println("description: " + requestDTO.getDescription());
+        System.out.println("profileImage: " + requestDTO.getProfileImage());
+        return ResponseEntity.ok(userSummaryService.updateUserProfile(requestDTO, userId));
     }
 
     @GetMapping("/api/user-summary/{phoneNumber}")
