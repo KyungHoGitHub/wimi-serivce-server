@@ -1,0 +1,28 @@
+package com.example.service.domain.meeting;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class MeetingResponseDTO {
+
+    private Long id;
+    private String title;
+    private String content;
+    private String scope;
+    private Long groupId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime startAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime endAt;
+    private String createBy;  // 추가
+    private String nickname;
+    private String imageUrl;
+
+}

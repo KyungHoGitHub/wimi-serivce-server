@@ -4,14 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 public class MeetingApplicationCreateRequestDTO {
     String title;
+    String name;
     String content;
-    LocalDateTime startAt;
-    LocalDateTime endAt;
-    Long groupId;
-    String meetingParticipantId;
+    LocalDateTime startDate;
+    LocalDateTime endDate;
+    String createdUserId;
+    Long groupId;                          // 단일 그룹
+    List<String>   memberIds;      // 참여자 여러명
 }

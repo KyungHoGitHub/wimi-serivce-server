@@ -38,7 +38,7 @@ public class Meeting {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime endAt;
 
-    @Column(name = "created_by")
+    @Column(name = "created_user_id")
     private String createdBy;
 
     @CreationTimestamp
