@@ -34,4 +34,10 @@ public class MeetingParticipantServiceImpl implements MeetingParticipantService{
 
         meetingParticipantRepository.saveAll(participants);
     }
+
+    @Override
+    public List<MeetingParticipantProjection> getMeetingParticipatsList(List<Long> meetingIds) {
+
+       return meetingParticipantRepository.findParticipantsByMeetingIds(meetingIds);
+    }
 }

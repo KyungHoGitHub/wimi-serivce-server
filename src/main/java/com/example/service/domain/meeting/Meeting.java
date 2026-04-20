@@ -28,12 +28,10 @@ public class Meeting {
     @Column(name = "group_id")
     private Long groupId;
 
-    @CreationTimestamp
     @Column(name = "start_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime startAt;
 
-    @CreationTimestamp
     @Column(name = "end_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime endAt;

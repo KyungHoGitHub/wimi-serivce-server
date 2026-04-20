@@ -6,12 +6,14 @@ import com.example.service.domain.meeting.MeetingResponseDTO;
 import com.example.service.domain.meeting.MeetingService;
 import com.example.service.domain.meetingDetail.MeetingDetailService;
 import com.example.service.domain.meetingParticipant.MeetingParticipantCreateRequestDTO;
+import com.example.service.domain.meetingParticipant.MeetingParticipantProjection;
 import com.example.service.domain.meetingParticipant.MeetingParticipantService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +22,7 @@ public class MeetingApplicationServiceImpl implements MeetingApplicationService 
     private final MeetingService meetingService;
     private final MeetingDetailService meetingDetailService;
     private final MeetingParticipantService meetingParticipantService;
+
 
     @Transactional
     @Override
@@ -53,6 +56,28 @@ public class MeetingApplicationServiceImpl implements MeetingApplicationService 
 
     @Override
     public List<MeetingResponseDTO> getMeetingList(String userId) {
-        return meetingService.getMeetingList(userId);
+
+        List<MeetingResponseDTO> meetings = meetingService.getMeetingList(userId);
+
+        List<Long> meetingIds = meetings.stream().map(MeetingResponseDTO::getId).toList();
+
+        Map<Long, List<MeetingParticipantProjection>> participantMap =
+                meetingParticipantService.getMeetingParticipatsList(meetingIds)
+                        .stream()
+                        .collect(Collectors.groupingBy(MeetingParticipantProjection::getMeetingId));
+
+        return meetings.stream()
+                .map(m -> MeetingResponseDTO.builder()
+                        .id(m.getId())
+                        .title(m.getTitle())
+                        .content(m.getContent())
+                        .startAt(m.getStartAt())
+                        .endAt(m.getEndAt())
+                        .groupId(m.getGroupId())
+                        .nickname(m.getNickname())
+                        .imageUrl(m.getImageUrl())
+                        .participants(participantMap.getOrDefault(m.getId(), List.of()))
+                        .build())
+                .toList();
     }
 }

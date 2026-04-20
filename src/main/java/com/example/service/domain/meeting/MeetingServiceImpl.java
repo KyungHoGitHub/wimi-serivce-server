@@ -38,6 +38,7 @@ public class MeetingServiceImpl implements MeetingService{
                         .content(p.getContent())
                         .startAt(p.getStartAt())
                         .endAt(p.getEndAt())
+                        .groupName(p.getGroupName())
                         .groupId(p.getGroupId())
                         .nickname(p.getCreatorNickname())
                         .imageUrl(p.getCreatorProfileUrl())

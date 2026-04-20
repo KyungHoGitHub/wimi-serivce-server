@@ -18,10 +18,10 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
         m.content AS content,
         m.scope AS scope,
         m.group_id AS groupId,
+        g.name AS groupName,    
         m.start_at AS startAt,
         m.end_at AS endAt,
         mp.status AS myStatus,
-        
         -- 생성자 정보
         creator.user_id AS createdBy,
         creator.nickname AS creatorNickname,
@@ -36,6 +36,8 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
         AND mp.user_id = :userId
     LEFT JOIN user_summary creator
         ON m.created_user_id = creator.user_id
+    LEFT JOIN groups g 
+        ON g.id = m.group_id 
     WHERE m.group_id IN (
         SELECT gm.group_id 
         FROM group_member gm 

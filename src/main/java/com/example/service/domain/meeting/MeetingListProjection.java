@@ -7,6 +7,7 @@ public interface MeetingListProjection {
     String getTitle();
     String getContent();
     String getScope();
+    String getGroupName();
     Long getGroupId();
     LocalDateTime getStartAt();
     LocalDateTime getEndAt();
