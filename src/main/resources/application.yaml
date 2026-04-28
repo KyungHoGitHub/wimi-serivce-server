@@ -21,10 +21,10 @@ spring:
     validate-on-migrate: false
   jpa:
     hibernate:
-        ddl-auto: none
+      ddl-auto: none
     properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   kafka:
     bootstrap-servers: kafka:29092
     consumer:
@@ -37,9 +37,19 @@ server:
   port: 8082
 solapi:
   api-key: NCSRQPGIRN51K75S
-  api-secret : V76OVL09JQXXNZWXAKXYMFMZHGKMKI96
-  from-number : 01090244539
-
+  api-secret: V76OVL09JQXXNZWXAKXYMFMZHGKMKI96
+  from-number: 01090244539
+cloud:
+  aws:
+    s3:
+      bucket: wimi-dev-storage
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+    credentials:
+      access-key: ${ CLOUD_AWS_CREDENTIALS_ACCESS_KEY }
+      secret-key: ${ CLOUD_AWS_CREDENTIALS_SECRET_KEY }
 jwt:
   public-key-path: ${JWT_PUBLIC_KEY_PATH:public.pem}
 
