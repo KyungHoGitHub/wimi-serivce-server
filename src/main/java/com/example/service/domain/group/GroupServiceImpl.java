@@ -71,7 +71,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group updateGroup(Long groupId, GroupUpdateRequestDTO requestDTO) throws IOException {
+    public Group updateGroup(Long groupId, GroupUpdateRequestDTO requestDTO) {
 
         Group group = groupRepository.findById(groupId).orElseThrow(()-> new RuntimeException("Group not found: " + groupId));
 

@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface UserSummaryService {
     UserSummary getUserSummary(String phoneNumber);
-    UserSummary updateUserProfile(UserSummaryUpdateRequestDTO imageUrl, String userId) throws IOException;
+    UserSummary updateUserProfile(UserSummaryUpdateRequestDTO imageUrl, String userId);
 }

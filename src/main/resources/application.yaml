@@ -40,9 +40,22 @@ solapi:
   api-secret : V76OVL09JQXXNZWXAKXYMFMZHGKMKI96
   from-number : 01090244539
 
-
 jwt:
   public-key-path: ${JWT_PUBLIC_KEY_PATH:public.pem}
 
 file:
   upload-dir: /app/images
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html      # Swagger UI 접근 경로
+    tags-sorter: alpha           # 태그 알파벳 정렬
+    operations-sorter: alpha     # API 알파벳 정렬
+  api-docs:
+    path: /api-docs
+
+logging:
+  level:
+    org.apache.kafka: WARN          # ✅ Kafka 내부 로그 억제
+    org.apache.kafka.clients: WARN  # ✅ 클라이언트 로그 억제
+    root:                      # 나머지는 DEBUG 유지

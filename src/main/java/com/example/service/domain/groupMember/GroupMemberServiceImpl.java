@@ -1,6 +1,7 @@
 package com.example.service.domain.groupMember;
 
 import com.example.service.domain.group.GroupMember;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +45,11 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     @Override
     public GroupMember save(GroupMember groupMember) {
        return groupMemberRepository.save(groupMember);
+    }
+
+    @Transactional
+    @Override
+    public void deleteGroupMember(Long groupId, String userId) {
+        groupMemberRepository.deleteByGroupIdAndUserId(groupId,userId);
     }
 }

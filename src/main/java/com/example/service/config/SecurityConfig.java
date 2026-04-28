@@ -24,7 +24,10 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/send", "/verify","/api/group/image","/group/group-member","/images/**").permitAll() // 인증 불필요
+                        .requestMatchers("/send", "/verify","/api/group/image","/group/group-member","/images/**",   "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/api-docs/**",
+                                "/v3/api-docs/**").permitAll() // 인증 불필요
                         .anyRequest().authenticated()                    // 나머지 인증 필요
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

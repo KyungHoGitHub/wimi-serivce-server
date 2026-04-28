@@ -30,4 +30,6 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
     WHERE gm.groupId = :groupId
 """)
     List<GroupMemberResponse> findMembersWithName(@Param("groupId") Long groupId);
+
+    void deleteByGroupIdAndUserId(Long groupId, String userId);
 }

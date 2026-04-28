@@ -2,6 +2,7 @@ package com.example.service.domain.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +21,24 @@ public class S3Serivce {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        String fileName = dirName + "/" + UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
+    public String upload(MultipartFile multipartFile, String dirName) {
+        try {
+            String fileName = dirName + "/" + UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(multipartFile.getSize());
-        metadata.setContentType(multipartFile.getContentType());
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(multipartFile.getSize());
+            metadata.setContentType(multipartFile.getContentType());
 
-        amazonS3.putObject(new PutObjectRequest(bucket, fileName, multipartFile.getInputStream(), metadata));
+            amazonS3.putObject(new PutObjectRequest(bucket, fileName, multipartFile.getInputStream(), metadata));
 
-        return amazonS3.getUrl(bucket, fileName).toString(); // 업로드된 파일의 URL 반환
+            return amazonS3.getUrl(bucket, fileName).toString(); // 업로드된 파일의 URL 반환
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 업로드에 실패했습니다.", e);
+        }
+    }
+
+    public void delete(String fileUrl) {
+        String fileName = fileUrl.substring(fileUrl.indexOf(".com/") + 5);
+        amazonS3.deleteObject(new DeleteObjectRequest(bucket, fileName));
     }
 }

@@ -23,7 +23,7 @@ public class UserSummaryServiceImpl implements UserSummaryService {
 
     @Override
     @Transactional
-    public UserSummary updateUserProfile(UserSummaryUpdateRequestDTO requestDTO, String userId) throws IOException {
+    public UserSummary updateUserProfile(UserSummaryUpdateRequestDTO requestDTO, String userId)  {
         UserSummary userSummary = userSummaryRepository.findById(userId).orElseThrow();
         if (requestDTO.getProfileImage() != null && !requestDTO.getProfileImage().isEmpty()) {
             String url = s3Serivce.upload(requestDTO.getProfileImage(), "profiles");

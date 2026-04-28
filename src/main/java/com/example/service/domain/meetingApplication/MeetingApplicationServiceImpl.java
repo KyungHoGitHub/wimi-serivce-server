@@ -73,6 +73,7 @@ public class MeetingApplicationServiceImpl implements MeetingApplicationService 
                         .content(m.getContent())
                         .startAt(m.getStartAt())
                         .endAt(m.getEndAt())
+                        .groupName(m.getGroupName())
                         .groupId(m.getGroupId())
                         .nickname(m.getNickname())
                         .imageUrl(m.getImageUrl())

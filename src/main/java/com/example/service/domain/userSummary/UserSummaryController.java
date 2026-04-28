@@ -48,6 +48,10 @@ public class UserSummaryController {
 
     @GetMapping("/api/user-summary/{phoneNumber}")
     public ResponseEntity<UserSummary> getUserSummary(@PathVariable("phoneNumber") String phoneNumber) {
-        return ResponseEntity.ok(userSummaryService.getUserSummary(phoneNumber));
+        UserSummary user = userSummaryService.getUserSummary(phoneNumber);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
     }
 }

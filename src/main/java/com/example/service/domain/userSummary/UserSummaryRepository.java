@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserSummaryRepository extends JpaRepository<UserSummary, String> {
     UserSummary findByPhoneNumber(String phoneNumber);
+
     @Modifying
     @Query("UPDATE UserSummary u SET u.profileImageUrl = :imageUrl WHERE u.userId = :userId")
     void updateProfileImage(@Param("imageUrl") String imageUrl, @Param("userId") String userId);

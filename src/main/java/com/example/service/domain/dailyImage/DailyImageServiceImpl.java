@@ -4,6 +4,7 @@ import com.example.service.domain.s3.S3Serivce;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,14 +26,25 @@ public class DailyImageServiceImpl implements DailyImageService{
     private final S3Serivce s3Serivce;
 
     @Override
-    public DailyImage createDailyImage(DailyImageCreateRequestDTO requestDTO) throws IOException {
+    public DailyImage createDailyImage(Long dailyId, MultipartFile image) {
 
-        String url = s3Serivce.upload(requestDTO.getUrl(), "profiles");
+        String url = s3Serivce.upload(image, "profiles");
         DailyImage dailyImage = DailyImage.builder()
-                .dailyId(requestDTO.getDailyId())
+                .dailyId(dailyId)
                 .url(url)
-                .orderIndex(requestDTO.getOrderIndex())
                 .build();
         return dailyImageRepository.save(dailyImage);
     }
+
+    @Override
+    public DailyImage getDailyImage(Long dailyId) {
+        return dailyImageRepository.findByDailyId(dailyId);
+    }
+
+    @Override
+    public void saveDailyImage(DailyImage dailyImage) {
+        dailyImageRepository.save(dailyImage);
+    }
+
+
 }

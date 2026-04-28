@@ -20,4 +20,5 @@ public class DailyResponseDTO {
     private LocalDateTime createdAt;
     private Long commentCount;  // 추가
     private Long likeCount;     // 추가
+    private boolean isOwner;
 }

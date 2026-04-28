@@ -1,8 +1,11 @@
 package com.example.service.domain.dailyImage;
 
 
-import java.io.IOException;
+import org.springframework.web.multipart.MultipartFile;
+
 
 public interface DailyImageService {
-    DailyImage createDailyImage(DailyImageCreateRequestDTO requestDTO) throws IOException;
+    DailyImage createDailyImage(Long dailyId, MultipartFile image);
+    DailyImage getDailyImage(Long dailyId);
+    void saveDailyImage(DailyImage dailyImage);
 }

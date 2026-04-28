@@ -4,12 +4,10 @@ import com.example.service.domain.meeting.MeetingResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,9 +24,14 @@ public class MeetingApplicationController {
     }
 
     @GetMapping("/api/meetings")
-    public ResponseEntity<List<MeetingResponseDTO>> getMeetingList(@AuthenticationPrincipal String userId){
+    public ResponseEntity<List<MeetingResponseDTO>> getMeetingList(@AuthenticationPrincipal String userId,
+                                                                   @RequestParam(required = false) Integer limit){
+        List<MeetingResponseDTO> result = meetingApplicationService.getMeetingList(userId);
 
-        return ResponseEntity.ok(meetingApplicationService.getMeetingList(userId));
+        if(limit != null){
+            return ResponseEntity.ok(result.stream().limit(limit).collect(Collectors.toList()));
+        }
+        return ResponseEntity.ok(result);
     }
 
 }

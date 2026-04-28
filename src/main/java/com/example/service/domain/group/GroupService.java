@@ -12,5 +12,5 @@ public interface GroupService {
 
     void deleteGroup(Long groupId,String userId);
 
-    Group updateGroup(Long groupId,GroupUpdateRequestDTO requestDTO) throws IOException;
+    Group updateGroup(Long groupId,GroupUpdateRequestDTO requestDTO) ;
 }

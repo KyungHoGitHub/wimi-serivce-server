@@ -13,4 +13,6 @@ public interface GroupMemberService {
     List<GroupMemberResponse> getGroupMemberList(Long groupId);
 
     GroupMember save(GroupMember groupMember);
+
+    void deleteGroupMember(Long groupId,String userId);
 }
