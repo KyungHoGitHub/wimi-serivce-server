@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -39,21 +41,34 @@ public class DailyServiceImpl implements DailyService {
     @Override
     public Daily updateDaily(Long dailyId, String userId, DailyUpdateRequestDTO requestDTO) {
         // 1. daily 컨텐츠 수정
-        Daily daily = dailyRepository.findById(dailyId).orElseThrow(()-> new RuntimeException("Daily not found: " + dailyId));
+        Daily daily = dailyRepository.findById(dailyId).orElseThrow(() -> new RuntimeException("Daily not found: " + dailyId));
 
         daily.setContent(requestDTO.getContent());
         daily.setUpdatedAt(LocalDateTime.now());
         dailyRepository.save(daily);
-        if (requestDTO.getImage() != null) {
-            DailyImage dailyImage = dailyImageService.getDailyImage(daily.getId());
-            if (dailyImage != null) {
-                    s3Serivce.delete(dailyImage.getUrl());
-                    String newUrl = s3Serivce.upload(requestDTO.getImage(), "profiles");
-                    dailyImage.setUrl(newUrl);
-                    dailyImageService.saveDailyImage(dailyImage);
+
+        // 이미지 요청 데이터가 있을때만
+        if (requestDTO.getImages() != null) {
+
+            // 기존 일상 이미지 리스트 조회
+            List<DailyImage> dailyImageList = dailyImageService.getDailyImageList(daily.getId());
+
+            // 새로운 일상 이미지 리스트 값 선언
+            List<DailyImage> newDailyImageList = new ArrayList<>();
+            for (int i = 0; i < requestDTO.getImages().size(); i++) {
+                String newUrl = s3Serivce.upload(requestDTO.getImages().get(i), "profiles");
+                newDailyImageList.add(DailyImage.builder()
+                        .dailyId(daily.getId())
+                        .url(newUrl)
+                        .orderIndex((long) i)
+                        .build());
             }
+
+            dailyImageList.forEach(image -> s3Serivce.delete(image.getUrl()));
+            dailyImageService.deleteAllByDailyId(daily.getId());
+            dailyImageService.saveDailyImages(newDailyImageList);
         }
 
-        return null;
+        return daily;
     }
 }

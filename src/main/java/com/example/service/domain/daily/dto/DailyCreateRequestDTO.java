@@ -14,7 +14,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@FieldDefaults(level = AccessLevel.PACKAGE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Schema(description = "일상 생성 요청 DTO")
 public class DailyCreateRequestDTO {
 

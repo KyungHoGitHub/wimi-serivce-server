@@ -53,5 +53,19 @@ public class DailyImageServiceImpl implements DailyImageService{
         dailyImageRepository.save(dailyImage);
     }
 
+    @Override
+    public void deleteAllByDailyId(Long dailyId) {
+        dailyImageRepository.deleteByDailyId(dailyId);
+    }
+
+    @Override
+    public void saveDailyImages(List<DailyImage> dailyImages) {
+        dailyImageRepository.saveAll(dailyImages);
+    }
+
+    @Override
+    public List<DailyImage> getDailyImageList(Long dailyId){
+        return dailyImageRepository.findByDailyIdOrderByOrderIndexAsc(dailyId);
+    }
 
 }
