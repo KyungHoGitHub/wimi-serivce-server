@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,14 +28,19 @@ public class DailyImageServiceImpl implements DailyImageService{
     private final S3Serivce s3Serivce;
 
     @Override
-    public DailyImage createDailyImage(Long dailyId, MultipartFile image) {
+    public List<DailyImage> createDailyImage(Long dailyId, List<MultipartFile> image) {
+        List<DailyImage> dailyImages = new ArrayList<>();
 
-        String url = s3Serivce.upload(image, "profiles");
-        DailyImage dailyImage = DailyImage.builder()
-                .dailyId(dailyId)
-                .url(url)
-                .build();
-        return dailyImageRepository.save(dailyImage);
+        for(int i = 0; i < image.size(); i++) {
+            String url = s3Serivce.upload(image.get(i), "profiles");
+            DailyImage dailyImage = DailyImage.builder()
+                    .dailyId(dailyId)
+                    .url(url)
+                    .orderIndex((long) i)
+                    .build();
+            dailyImages.add(dailyImage);
+        }
+        return dailyImageRepository.saveAll(dailyImages);
     }
 
     @Override

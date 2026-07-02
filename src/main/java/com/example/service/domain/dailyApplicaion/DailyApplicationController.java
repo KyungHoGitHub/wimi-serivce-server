@@ -8,11 +8,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,20 +35,19 @@ public class DailyApplicationController {
     }
 
     @GetMapping("/api/daily")
-    public ResponseEntity<List<DailyResponseDTO>> getDailyList(
+    public ResponseEntity<Page<DailyResponseDTO>> getDailyList(
             @AuthenticationPrincipal String userId,
-            @RequestParam(required = false) Integer limit
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        List<DailyResponseDTO> result = dailyApplicationService.getDailyList(userId);
 
-        if (limit != null) {
-            return ResponseEntity.ok(result.stream().limit(limit).collect(Collectors.toList()));
-        }
-        return ResponseEntity.ok(result);
+        System.out.println("userId: " + userId);
+
+        return ResponseEntity.ok(dailyApplicationService.getDailyList(userId, pageable));
     }
 
     @GetMapping("/api/daily/{dailyId}")
-    public ResponseEntity<DailyResponseDTO> getDailyDetail(@PathVariable("dailyId") Long dailyId, @AuthenticationPrincipal String userId) {
+    public ResponseEntity<DailyResponseDTO> getDailyDetail(@PathVariable("dailyId") Long dailyId,
+                                                           @AuthenticationPrincipal String userId) {
         return ResponseEntity.ok(dailyApplicationService.getDailyDetail(dailyId, userId));
     }
 }

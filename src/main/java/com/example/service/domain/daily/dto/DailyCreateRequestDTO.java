@@ -10,6 +10,8 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PACKAGE)
@@ -32,5 +34,5 @@ public class DailyCreateRequestDTO {
     String scope;
 
     @Schema(description = "이미지 파일", example = "선택")
-    MultipartFile image;
+    List<MultipartFile> images;
 }

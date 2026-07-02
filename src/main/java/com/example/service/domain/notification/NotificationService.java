@@ -9,4 +9,6 @@ public interface NotificationService {
     List<Notification> getNotifications(String userId);
 
     Long getUnreadCount(String userId);
+
+    void readNotification(Long notificationId);
 }

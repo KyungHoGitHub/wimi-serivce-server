@@ -24,4 +24,10 @@ public class GroupInviteController {
         groupInviteService.acceptGroupInvite(inviteId,userId);
         return ResponseEntity.ok("success");
     }
+
+    @PatchMapping("api/group-invite/{inviteId}/reject")
+    public ResponseEntity<?> rejectGroupInvite(@PathVariable("inviteId") Long inviteId, @AuthenticationPrincipal String userId){
+
+        return ResponseEntity.ok("success");
+    }
 }

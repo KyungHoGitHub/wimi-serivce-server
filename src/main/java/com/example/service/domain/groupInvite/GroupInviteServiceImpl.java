@@ -49,6 +49,7 @@ public class GroupInviteServiceImpl implements GroupInviteService {
         groupInvite.setStatus("ACCEPTED");
         groupInviteRepository.save(groupInvite);
 
+
         GroupMember groupMember = GroupMember.builder()
                 .groupId(groupInvite.getGroupId())
                 .userId(userId)

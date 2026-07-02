@@ -25,4 +25,11 @@ public class NotificationServiceImpl implements NotificationService {
     public Long getUnreadCount(String userId) {
         return notificationRepository.countByUserIdAndIsReadFalse(userId);
     }
+
+    @Override
+    public void readNotification(Long notificationId) {
+        Notification notification = notificationRepository.findById(notificationId).orElseThrow(()-> new RuntimeException("Notification not found: " + notificationId));
+        notification.setIsRead(true);
+        notificationRepository.save(notification);
+    }
 }

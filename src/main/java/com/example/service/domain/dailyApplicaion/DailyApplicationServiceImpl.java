@@ -9,11 +9,14 @@ import com.example.service.domain.dailyImage.DailyImageService;
 import com.example.service.domain.log.ActivityLog;
 import com.example.service.domain.log.ActivityLogService;
 import com.example.service.domain.log.LogAction;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;      // ✅ Spring Data
+import org.springframework.data.domain.Pageable;  // ✅ Spring Data
 import java.util.List;
 
 @Slf4j
@@ -25,6 +28,7 @@ public class DailyApplicationServiceImpl implements DailyApplicationService {
     private final DailyImageService dailyImageService;
     private final DailyRepository dailyRepository;
     private final ActivityLogService activityLogService;
+    private final ObjectMapper objectMapper;
 
     @Transactional
     @Override
@@ -37,9 +41,9 @@ public class DailyApplicationServiceImpl implements DailyApplicationService {
             log.debug("일상 저장 완료 - dailyId: {}", daily.getId());
 
             // 사용자가 이미지를 올린 경우
-            if (requestDTO.getImage() != null) {
+            if (requestDTO.getImages() != null) {
                 log.debug("일상 이미지 업로드 시작 - dailyId: {}", daily.getId());
-                dailyImageService.createDailyImage(daily.getId(), requestDTO.getImage());
+                dailyImageService.createDailyImage(daily.getId(), requestDTO.getImages());
                 log.debug("일상 이미지 업로드 완료 - dailyId: {}", daily.getId());
             }
 
@@ -66,19 +70,21 @@ public class DailyApplicationServiceImpl implements DailyApplicationService {
     }
 
     @Override
-    public List<DailyResponseDTO> getDailyList(String userId) {
-        return dailyRepository.findDailyListByUserId(userId)
-                .stream()
+    public Page<DailyResponseDTO> getDailyList(String userId, Pageable pageable) {
+        System.out.println("페이지 사이즈: " + pageable.getPageSize());
+        System.out.println("페이즈 넘버 " + pageable.getPageNumber());
+        return dailyRepository.findDailyListByUserId(userId, pageable)
                 .map(p -> DailyResponseDTO.builder()
                         .id(p.getId())
                         .title(p.getTitle())
                         .content(p.getContent())
-                        .imageUrl(p.getImageUrl())
+                        .thumbnailUrl(p.getThumbnailUrl())
                         .createdAt(p.getCreatedAt())
                         .commentCount(p.getCommentCount())
                         .likeCount(p.getLikeCount())
-                        .build())
-                .toList();
+                        .authorNickname(p.getAuthorNickname())
+                        .authorImageUrl(p.getAuthorImageUrl())
+                        .build());
     }
 
     @Override
@@ -89,10 +95,22 @@ public class DailyApplicationServiceImpl implements DailyApplicationService {
                         .title(p.getTitle())
                         .name(p.getName())
                         .content(p.getContent())
-                        .imageUrl(p.getImageUrl())
+                        .images(parseImages(p.getImages()))
                         .createdAt(p.getCreatedAt())
                         .isOwner(userId.equals(p.getCreatedUserId()))
                         .build())
                 .orElseThrow(() -> new RuntimeException("일상을 찾을 수 없습니다."));
+    }
+
+    private List<DailyResponseDTO.ImageDTO> parseImages(String json) {
+        if (json == null) return List.of();
+        try {
+            return objectMapper.readValue(
+                    json,
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, DailyResponseDTO.ImageDTO.class)
+            );
+        } catch (JsonProcessingException e) {
+            return List.of();
+        }
     }
 }
