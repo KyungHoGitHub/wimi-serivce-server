@@ -37,12 +37,12 @@ public class DailyApplicationController {
     @GetMapping("/api/daily")
     public ResponseEntity<Page<DailyResponseDTO>> getDailyList(
             @AuthenticationPrincipal String userId,
+            @RequestParam(required = false) Long groupId,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
 
-        System.out.println("userId: " + userId);
 
-        return ResponseEntity.ok(dailyApplicationService.getDailyList(userId, pageable));
+        return ResponseEntity.ok(dailyApplicationService.getDailyList(userId, groupId,pageable));
     }
 
     @GetMapping("/api/daily/{dailyId}")

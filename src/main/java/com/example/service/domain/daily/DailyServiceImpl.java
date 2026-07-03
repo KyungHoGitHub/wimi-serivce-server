@@ -51,7 +51,7 @@ public class DailyServiceImpl implements DailyService {
         if (requestDTO.getImages() != null) {
 
             // 기존 일상 이미지 리스트 조회
-            List<DailyImage> dailyImageList = dailyImageService.getDailyImageList(daily.getId());
+            List<DailyImage> exixtingDailyImageList = dailyImageService.getDailyImageList(daily.getId());
 
             // 새로운 일상 이미지 리스트 값 선언
             List<DailyImage> newDailyImageList = new ArrayList<>();
@@ -64,11 +64,16 @@ public class DailyServiceImpl implements DailyService {
                         .build());
             }
 
-            dailyImageList.forEach(image -> s3Serivce.delete(image.getUrl()));
+            exixtingDailyImageList.forEach(image -> s3Serivce.delete(image.getUrl()));
             dailyImageService.deleteAllByDailyId(daily.getId());
             dailyImageService.saveDailyImages(newDailyImageList);
         }
 
         return daily;
     }
+
 }
+
+
+
+

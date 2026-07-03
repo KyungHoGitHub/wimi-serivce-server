@@ -13,6 +13,7 @@ import java.util.Optional;
 
 
 public interface DailyRepository extends JpaRepository<Daily, Long> {
+
     @Query(value = """
     SELECT 
         d.id,
@@ -39,6 +40,7 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
         FROM group_member gm 
         WHERE gm.user_id = :userId
     )
+        AND (:groupId IS NULL OR d.group_id = :groupId)
     GROUP BY d.id, d.content, d.created_user_id, d.created_at, di.url, us.nickname, us.profile_image_url
     ORDER BY d.created_at DESC
     """,
@@ -50,9 +52,10 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
         FROM group_member gm 
         WHERE gm.user_id = :userId
     )
+        AND (:groupId IS NULL OR d.group_id = :groupId)
     """,
             nativeQuery = true)
-    Page<DailyListProjection> findDailyListByUserId(@Param("userId") String userId, Pageable pageable);
+    Page<DailyListProjection> findDailyListByUserId(@Param("userId") String userId,@Param("groupId") Long groupId, Pageable pageable);
 
     @Query(value = """
             SELECT

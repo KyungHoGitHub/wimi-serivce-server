@@ -70,10 +70,8 @@ public class DailyApplicationServiceImpl implements DailyApplicationService {
     }
 
     @Override
-    public Page<DailyResponseDTO> getDailyList(String userId, Pageable pageable) {
-        System.out.println("페이지 사이즈: " + pageable.getPageSize());
-        System.out.println("페이즈 넘버 " + pageable.getPageNumber());
-        return dailyRepository.findDailyListByUserId(userId, pageable)
+    public Page<DailyResponseDTO> getDailyList(String userId,Long groupId, Pageable pageable) {
+        return dailyRepository.findDailyListByUserId(userId, groupId,pageable)
                 .map(p -> DailyResponseDTO.builder()
                         .id(p.getId())
                         .title(p.getTitle())

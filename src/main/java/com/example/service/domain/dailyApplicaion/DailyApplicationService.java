@@ -11,7 +11,7 @@ import java.util.List;
 public interface DailyApplicationService {
     DailyCreateResponse createDaily(DailyCreateRequestDTO requestDTO, String userId);
 
-    Page<DailyResponseDTO> getDailyList(String userId, Pageable pageable);
+    Page<DailyResponseDTO> getDailyList(String userId,Long groupId, Pageable pageable);
 
     DailyResponseDTO getDailyDetail(Long dailyId, String userId);
 }
