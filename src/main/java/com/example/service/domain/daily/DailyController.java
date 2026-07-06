@@ -26,5 +26,11 @@ public class DailyController {
         dailyService.updateDaily(dailyId,userId,requestDTO);
         return ResponseEntity.ok("success");
     }
+
+    @DeleteMapping("/api/daily/{dailyId}")
+    public ResponseEntity<?> deleteDaily(@PathVariable("dailyId") Long dailyId, @AuthenticationPrincipal String userId){
+        dailyService.deleteDaily(dailyId,userId);
+        return ResponseEntity.ok("success");
+    }
 }
 

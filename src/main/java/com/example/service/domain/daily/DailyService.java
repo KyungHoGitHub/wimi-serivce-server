@@ -8,4 +8,6 @@ public interface DailyService {
     Daily createDaily(DailyCreateRequestDTO requestDTO,String userId);
 
     Daily updateDaily(Long dailyId, String userId, DailyUpdateRequestDTO requestDTO);
+
+    void deleteDaily(Long dailyId,String userId);
 }

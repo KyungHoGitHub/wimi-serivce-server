@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -70,6 +71,41 @@ public class DailyServiceImpl implements DailyService {
         }
 
         return daily;
+    }
+
+    @Transactional
+    @Override
+    public void deleteDaily(Long dailyId, String userId) {
+
+        List<DailyImage> dailyImageList = deleteDailyTransactional(dailyId, userId);
+
+        // 일상이미지 s3 에서 삭제
+       dailyImageList.forEach(image -> {
+           try{
+               s3Serivce.delete(image.getUrl());
+           }catch(Exception e){
+               log.error("S3 이미지 삭제 실패 : dialyId: {}, url: {}", dailyId, image.getUrl());
+           }
+       });
+
+    }
+
+    @Transactional
+    public List<DailyImage> deleteDailyTransactional(Long dailyId, String userId) {
+        // 1. 일상 데이터를 찾는다
+        Daily daily = dailyRepository.findById(dailyId).orElseThrow(() -> new RuntimeException("Daily not found: " + dailyId));
+
+        // 2. 요청자가 일상 생성자인지 다시 한번 확인
+        if(!userId.equals(daily.getCreatedUserId())){
+            throw new AccessDeniedException("삭제 권한이 없습니다");
+        }
+
+        // 3. 일상 이미지 리스트 조회
+        List<DailyImage> dailyImageList = dailyImageService.getDailyImageList(dailyId);
+
+        // 4. 일상 데이터 삭제
+        dailyRepository.deleteById(dailyId);
+        return dailyImageList;
     }
 
 }
