@@ -37,7 +37,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<GroupListResponseDTO> getGroups(String userId) {
-
+        // TODO 유저가 속한 그룹이 없을때도 처리 해야할듯
         List<Long> groupIds = groupMemberService.getGroupMembers(userId);
         List<Group> groups = groupRepository.findByIdIn(groupIds);
         return groups.stream()

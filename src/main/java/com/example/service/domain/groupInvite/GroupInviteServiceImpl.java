@@ -6,6 +6,7 @@ import com.example.service.domain.group.Status;
 import com.example.service.domain.groupMember.GroupMemberService;
 import com.example.service.domain.notification.Notification;
 import com.example.service.domain.notification.NotificationService;
+import com.example.service.domain.notification.Type;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,10 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class GroupInviteServiceImpl implements GroupInviteService {
-
     private final GroupInviteRepository groupInviteRepository;
     private final NotificationService notificationService;
     private final GroupMemberService groupMemberService;
+
     @Transactional
     @Override
     public void createGroupInvite(GroupInviteCreateRequestDTO requestDTO) {
@@ -31,11 +32,13 @@ public class GroupInviteServiceImpl implements GroupInviteService {
                 .build();
         groupInviteRepository.save(groupInvite);
         // 알림 저장
+        String notificationBody = requestDTO.getGroupName() + "에 초대 요청이 왔습니다.";
+
         Notification notification = Notification.builder()
                 .userId(requestDTO.getInvitedUserId())
-                .type("INVITE")
+                .type(Type.INVITE)
                 .title("그룹 초대")
-                .body("그룹에 초대되었습니다.")
+                .body(notificationBody)
                 .referenceId(groupInvite.getId())
                 .referenceType("GROUP_INVITE")
                 .build();
@@ -46,7 +49,7 @@ public class GroupInviteServiceImpl implements GroupInviteService {
     @Override
     public void acceptGroupInvite(Long inviteId, String userId) {
         GroupInvite groupInvite = groupInviteRepository.findById(inviteId).orElseThrow(()-> new RuntimeException("찾을수 없습니다."));
-        groupInvite.setStatus("ACCEPTED");
+        groupInvite.setStatus(com.example.service.domain.groupInvite.Status.ACCEPTED);
         groupInviteRepository.save(groupInvite);
 
 

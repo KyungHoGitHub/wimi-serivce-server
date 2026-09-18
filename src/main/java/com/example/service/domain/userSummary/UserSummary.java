@@ -31,6 +31,9 @@ public class UserSummary {
     @Column(name="profile_image_url")
     private String profileImageUrl;
 
+    @Column(name="push_token")
+    private String pushToken;
+
     private String status;
     private String role;
 }

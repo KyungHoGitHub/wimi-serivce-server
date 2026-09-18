@@ -1,41 +1,48 @@
-package com.example.service.domain.dailyComment;
+package com.example.service.domain.foodSpot;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "daily_comment")
-public class DailyComment {
+@Builder
+@Getter
+@NoArgsConstructor
+public class FoodSpot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="daily_id")
-    private Long dailyId;
+    private String name;
 
-    @Column(name="user_id")
-    private String userId;
+    private String menu;
+    private String address;
+    private String review;
 
-    @Column(name="parent_id")
-    private Long parentId;  // 대댓글용, 일반 댓글은 null
-    private String content;
+    @Column(name="image_key")
+    private String imageKey;
+    private Double lat;
+    private Double lng;
+
+    @Column(name="created_by")
+    private String createdBy;
 
     @CreationTimestamp
     @Column(name="created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     @Column(name="updated_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime updatedAt;
+
 }

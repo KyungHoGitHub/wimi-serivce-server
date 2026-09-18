@@ -79,12 +79,12 @@ public class DailyServiceImpl implements DailyService {
 
         List<DailyImage> dailyImageList = deleteDailyTransactional(dailyId, userId);
 
-        // 일상이미지 s3 에서 삭제
+        // aws s3에 업로드된 일상 이미지 삭제
        dailyImageList.forEach(image -> {
            try{
                s3Serivce.delete(image.getUrl());
            }catch(Exception e){
-               log.error("S3 이미지 삭제 실패 : dialyId: {}, url: {}", dailyId, image.getUrl());
+               log.error("S3 이미지 삭제 실패 : dailyId: {}, url: {}", dailyId, image.getUrl());
            }
        });
 

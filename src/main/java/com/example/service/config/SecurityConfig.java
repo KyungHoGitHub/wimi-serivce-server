@@ -27,6 +27,7 @@ public class SecurityConfig {
                         .requestMatchers("/send", "/verify","/api/group/image","/group/group-member","/images/**",   "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/api-docs/**",
+                                "/api/login/send",
                                 "/v3/api-docs/**").permitAll() // 인증 불필요
                         .anyRequest().authenticated()                    // 나머지 인증 필요
                 )

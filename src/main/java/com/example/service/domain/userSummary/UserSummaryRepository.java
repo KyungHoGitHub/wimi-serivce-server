@@ -13,4 +13,6 @@ public interface UserSummaryRepository extends JpaRepository<UserSummary, String
     @Modifying
     @Query("UPDATE UserSummary u SET u.profileImageUrl = :imageUrl WHERE u.userId = :userId")
     void updateProfileImage(@Param("imageUrl") String imageUrl, @Param("userId") String userId);
+
+    boolean existsByPhoneNumber(String phoneNumber);
 }

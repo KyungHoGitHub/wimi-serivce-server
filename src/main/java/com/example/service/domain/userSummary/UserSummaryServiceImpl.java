@@ -17,8 +17,7 @@ public class UserSummaryServiceImpl implements UserSummaryService {
 
     @Override
     public UserSummary getUserSummary(String phoneNumber) {
-        String formatted = phoneNumber.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");
-        return userSummaryRepository.findByPhoneNumber(formatted);
+        return userSummaryRepository.findByPhoneNumber(phoneNumber);
     }
 
     @Override
@@ -32,5 +31,17 @@ public class UserSummaryServiceImpl implements UserSummaryService {
         userSummary.setNickname(requestDTO.getNickname());
         userSummary.setDescription(requestDTO.getDescription());
        return userSummaryRepository.save(userSummary);
+    }
+
+    @Override
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return  userSummaryRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public void updatePushToken(String userId, String pushToken) {
+        UserSummary userSummary = userSummaryRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found: " + userId));
+        userSummary.setPushToken(pushToken);
     }
 }

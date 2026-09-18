@@ -15,6 +15,7 @@ public class DailyCommentResponseDTO {
     private String profileImageUrl; // ← 추가
     private String content;
     private Long parentId;
+    private boolean isOwner;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
 }

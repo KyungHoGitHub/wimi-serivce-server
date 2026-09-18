@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;      // ✅ Spring Data
 import org.springframework.data.domain.Pageable;  // ✅ Spring Data
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -98,6 +100,19 @@ public class DailyApplicationServiceImpl implements DailyApplicationService {
                         .isOwner(userId.equals(p.getCreatedUserId()))
                         .build())
                 .orElseThrow(() -> new RuntimeException("일상을 찾을 수 없습니다."));
+    }
+
+    @Override
+    public List<DailyMyListResponseDTO> getDailyMyList(String userId) {
+        return dailyRepository.findDailyMyList(userId)
+                .stream()
+                .map(p -> DailyMyListResponseDTO.builder()
+                        .dailyId(p.getDailyId())
+                        .imageUrl(p.getImageUrl())
+                        .imageCount(p.getImageCount())
+                        .createdAt(p.getCreatedAt())
+                        .build())
+                .toList();
     }
 
     private List<DailyResponseDTO.ImageDTO> parseImages(String json) {

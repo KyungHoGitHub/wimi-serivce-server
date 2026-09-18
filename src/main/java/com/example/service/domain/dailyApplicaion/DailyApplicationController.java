@@ -40,8 +40,6 @@ public class DailyApplicationController {
             @RequestParam(required = false) Long groupId,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-
-
         return ResponseEntity.ok(dailyApplicationService.getDailyList(userId, groupId,pageable));
     }
 
@@ -49,5 +47,10 @@ public class DailyApplicationController {
     public ResponseEntity<DailyResponseDTO> getDailyDetail(@PathVariable("dailyId") Long dailyId,
                                                            @AuthenticationPrincipal String userId) {
         return ResponseEntity.ok(dailyApplicationService.getDailyDetail(dailyId, userId));
+    }
+
+    @GetMapping("/api/daily/mylist")
+    public ResponseEntity<List<DailyMyListResponseDTO>> getDailyMyList (@AuthenticationPrincipal String userId){
+        return ResponseEntity.ok(dailyApplicationService.getDailyMyList(userId));
     }
 }

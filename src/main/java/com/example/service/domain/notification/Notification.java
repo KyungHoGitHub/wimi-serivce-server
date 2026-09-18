@@ -22,7 +22,8 @@ public class Notification {
     @Column(name="user_id")
     private String userId;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     private String title;
     private String body;

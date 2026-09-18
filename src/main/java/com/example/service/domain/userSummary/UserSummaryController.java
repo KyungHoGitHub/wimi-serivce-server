@@ -1,8 +1,10 @@
 package com.example.service.domain.userSummary;
 
+import com.example.service.common.response.CommonResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -53,5 +55,13 @@ public class UserSummaryController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/api/push-token")
+    public ResponseEntity<CommonResponse<Void>> savePushToken(
+            @AuthenticationPrincipal String userId,
+            @RequestBody UserSummaryPushTokenRequestDTO requestDTO){
+            userSummaryService.updatePushToken(userId, requestDTO.getPushToken());
+        return ResponseEntity.ok(null);
     }
 }

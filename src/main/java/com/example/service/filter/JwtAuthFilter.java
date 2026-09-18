@@ -31,6 +31,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
         log.info("요청 URI: {}", request.getRequestURI()); // ✅ 추가
+        log.info("Authorization 헤더: {}", authHeader);
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.replace("Bearer ", "");
             try {
@@ -58,6 +59,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         return path.equals("/send") ||
                 path.equals("/verify") ||
-                path.equals("/api/group/image");
+                path.equals("/api/group/image")||
+                path.equals("/api/login/send")
+                ;
     }
 }

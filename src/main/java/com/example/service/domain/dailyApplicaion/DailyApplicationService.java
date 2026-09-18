@@ -14,4 +14,6 @@ public interface DailyApplicationService {
     Page<DailyResponseDTO> getDailyList(String userId,Long groupId, Pageable pageable);
 
     DailyResponseDTO getDailyDetail(Long dailyId, String userId);
+
+    List<DailyMyListResponseDTO> getDailyMyList(String userId);
 }

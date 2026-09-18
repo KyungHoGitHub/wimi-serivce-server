@@ -2,6 +2,7 @@ package com.example.service.domain.daily;
 
 
 import com.example.service.domain.dailyApplicaion.DailyListProjection;
+import com.example.service.domain.dailyApplicaion.DailyMyListProjection;
 import com.example.service.domain.dailyApplicaion.DailyResponseDTO;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -78,4 +79,27 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
             GROUP BY d.id, d.title, g.name, d.content, d.created_user_id, d.created_at
             """, nativeQuery = true)
     Optional<DailyListProjection> findDailyById(@Param("dailyId") Long dailyId);
+
+    @Query(value = """
+            SELECT 
+                d.id AS dailyId,
+                di.url AS imageUrl,
+                img_count.cnt AS imageCount,
+                d.created_at AS createAt
+            FROM daily d   
+                 LEFT JOIN LATERAL (
+                    SELECT url FROM daily_image
+                    WHERE daily_id = d.id
+                    ORDER BY order_index ASC
+                    LIMIT 1
+            ) di ON true
+                LEFT JOIN LATERAL (
+                    SELECT COUNT(*) AS cnt
+                    FROM daily_image
+                    WHERE daily_id = d.id
+                ) img_count ON true
+            WHERE d.created_user_id = :userId
+            ORDER BY d.created_at DESC;
+            """, nativeQuery = true)
+    List<DailyMyListProjection>findDailyMyList(@Param("userId") String userId);
 }

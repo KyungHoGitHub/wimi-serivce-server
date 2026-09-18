@@ -22,4 +22,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(CommonResponse.fail(HttpStatus.BAD_REQUEST.value(), message));
     }
+    @ExceptionHandler(AlreadyRegisteredPhoneException.class)
+    public ResponseEntity<CommonResponse<Void>> handleAlreadyRegistered(AlreadyRegisteredPhoneException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT) // 409
+                .body(CommonResponse.fail(HttpStatus.CONFLICT.value(), e.getMessage()));
+    }
+
+    @ExceptionHandler(NotRegisteredPhoneException.class)
+    public ResponseEntity<CommonResponse<Void>> handleNotRegistered(NotRegisteredPhoneException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST) // 409
+                .body(CommonResponse.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
+    }
 }

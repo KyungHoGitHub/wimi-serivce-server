@@ -30,7 +30,8 @@ public class GroupInvite {
     @Column(name="group_id")
     private Long groupId;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @Column(name = "expired_at")
     private LocalDateTime expiredAt;

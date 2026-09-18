@@ -11,8 +11,7 @@ public class GroupInviteController {
 
     private final GroupInviteService groupInviteService;
 
-
-    @PostMapping("api/group/invite")
+    @PostMapping("/api/group/invite")
      public ResponseEntity<?> inviteMember(@RequestBody GroupInviteCreateRequestDTO requestDTO, @AuthenticationPrincipal String userId){
         requestDTO.setInvitedBy(userId);
         groupInviteService.createGroupInvite(requestDTO);
