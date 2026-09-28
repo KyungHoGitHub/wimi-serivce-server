@@ -1,5 +1,6 @@
 package com.example.service.domain.foodSpot;
 
+import com.example.service.common.entity.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,10 +14,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
-@Builder
 @Getter
 @NoArgsConstructor
-public class FoodSpotMenuBoard {
+public class FoodSpotMenuBoard  extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,13 +30,25 @@ public class FoodSpotMenuBoard {
     @Column(name="order_index")
     private Integer orderIndex;
 
-    @CreationTimestamp
-    @Column(name="created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime createdAt;
+//    @CreationTimestamp
+//    @Column(name="created_at")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    private LocalDateTime createdAt;
+//
+//    @UpdateTimestamp
+//    @Column(name="updated_at")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//    private LocalDateTime updatedAt;
 
-    @UpdateTimestamp
-    @Column(name="updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime updatedAt;
+    @Builder
+    private FoodSpotMenuBoard(String name, int price, int orderIndex) {
+        this.name = name;
+        this.price = price;
+        this.orderIndex = orderIndex;
+    }
+
+
+    void assignFoodSpot(FoodSpot foodSpot) {
+        this.foodSpot = foodSpot;
+    }
 }

@@ -1,52 +1,56 @@
 package com.example.service.domain.foodSpot;
 
-import com.example.service.domain.userSummary.UserSummary;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class FoodSpotRequestDTO {
     @NotBlank
-    private String imageKey;
+    String imageKey;
 
     @NotBlank
-    private String name;
+    String name;
 
     @NotBlank
-    private String menu;
+    String menu;
 
     @NotBlank
-    private String address;
+    String address;
 
-    private String review;
+    Double lat;
+
+    Double lng;
+
+    String review;
 
     @Valid
     @NotEmpty
-    private List<MenuPriceRequestDto> menuPrices;
+    List<MenuPriceRequestDto> menuPrices;
 
     @Getter
     @NoArgsConstructor
     public static class MenuPriceRequestDto {
 
         @NotBlank
-        private String name;
+        String name;
 
         @NotNull
         @Min(0)
-        private Integer price;
+        Integer price;
 
         @NotNull
-        private Integer orderIndex;
+        Integer orderIndex;
     }
 }
 

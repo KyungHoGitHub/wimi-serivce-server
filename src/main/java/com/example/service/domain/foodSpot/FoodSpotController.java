@@ -1,43 +1,65 @@
 package com.example.service.domain.foodSpot;
 
+import com.example.service.common.response.CommonResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/foodSpot")
 public class FoodSpotController {
 
     private final FoodSpotService foodSpotService;
 
+    @Operation(summary = "맛집 리스트 조회", description = "전체 맛집 리스트 목록 조회")
     @GetMapping
-    public void getFoodSpotList(){
+    public ResponseEntity<CommonResponse<List<FoodSpotResponseDTO>>> getFoodSpotList(){
+        return ResponseEntity.ok(CommonResponse.of(null,null));
     }
 
+    @Operation(summary = "특정 맛집 정보 조회")
     @GetMapping("/{id}")
-    public void getFoodSpot(){
-    }
-
-    @PutMapping
-    public void updateFoodSpot(
-            @AuthenticationPrincipal String userId,
-            @RequestBody FoodSpotRequestDTO requestDTO
+    public ResponseEntity<CommonResponse<FoodSpotResponseDTO>> getFoodSpot(
+            @PathVariable("id") Long foodSpotId,
+            @AuthenticationPrincipal String userId
     ){
-        foodSpotService.createFoodSpot(requestDTO,userId);
+
+        return ResponseEntity.ok(CommonResponse.of(null,null));
     }
 
-    @PostMapping("/api/foodSpot")
-    public void createFoodSpot(
+    @Operation(summary = "맛집 정보 수정")
+    @PutMapping("/{id}")
+    public ResponseEntity<CommonResponse<Void>> updateFoodSpot(
+            @PathVariable("id") Long foodSpotId,
+            @AuthenticationPrincipal String userId,
+            @Valid @RequestBody FoodSpotRequestDTO requestDTO
+    ){
+        return ResponseEntity.ok(CommonResponse.of(null,null));
+    }
+
+    @Operation(summary = "맛집 생성 요청")
+    @PostMapping()
+    public ResponseEntity<CommonResponse<Void>> createFoodSpot(
             @AuthenticationPrincipal String userId,
             @Valid @RequestBody FoodSpotRequestDTO requestDTO
     ){
         foodSpotService.createFoodSpot(requestDTO,userId);
+        return ResponseEntity.ok(CommonResponse.created(null));
     }
 
+    @Operation(summary = "맛집 정보 삭제")
     @DeleteMapping("/{id}")
-    public void deleteFoodSpot(){
+    public ResponseEntity<CommonResponse<Void>> deleteFoodSpot(
+            @PathVariable("id") Long foodSpotId,
+            @AuthenticationPrincipal String userId
+    ){
+        return ResponseEntity.ok(CommonResponse.of(null,null));
     }
 
 }
