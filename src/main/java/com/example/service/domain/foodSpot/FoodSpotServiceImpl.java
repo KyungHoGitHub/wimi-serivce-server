@@ -1,8 +1,16 @@
 package com.example.service.domain.foodSpot;
 
+import com.amazonaws.util.StringUtils;
+import com.example.service.common.response.SliceResponse;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +40,23 @@ public class FoodSpotServiceImpl implements FoodSpotService {
                         .build()));
 
         foodSpotRepository.save(foodSpot);
+    }
+
+    @Override
+    public SliceResponse<FoodSpotResponseDTO> getFoodSpotList(String userId, String keyword, int page, int size) {
+        Sort sort = StringUtils.hasValue(keyword)
+                ? Sort.by("name").ascending()
+                : Sort.by("createdAt").descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Slice<FoodSpot> slice = foodSpotRepository.search(userId, keyword, pageable);
+
+        List<FoodSpotResponseDTO> content = slice.getContent().stream()
+                .map(FoodSpotResponseDTO::from)
+                .toList();
+
+        return new SliceResponse<>(content, slice.hasNext());
+
     }
 }

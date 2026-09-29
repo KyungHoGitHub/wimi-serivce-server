@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -35,11 +36,13 @@ public class FoodSpotRequestDTO {
     String review;
 
     @Valid
-    @NotEmpty
-    List<MenuPriceRequestDto> menuPrices;
+    @Builder.Default
+    List<MenuPriceRequestDto> menuPrices = new ArrayList<>();
 
     @Getter
     @NoArgsConstructor
+    @AllArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class MenuPriceRequestDto {
 
         @NotBlank

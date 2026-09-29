@@ -1,6 +1,7 @@
 package com.example.service.domain.foodSpot;
 
 import com.example.service.common.response.CommonResponse;
+import com.example.service.common.response.SliceResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,14 @@ public class FoodSpotController {
 
     @Operation(summary = "맛집 리스트 조회", description = "전체 맛집 리스트 목록 조회")
     @GetMapping
-    public ResponseEntity<CommonResponse<List<FoodSpotResponseDTO>>> getFoodSpotList(){
-        return ResponseEntity.ok(CommonResponse.of(null,null));
+    public ResponseEntity<CommonResponse<SliceResponse<FoodSpotResponseDTO>>> getFoodSpotList(
+            @AuthenticationPrincipal String userId,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        return ResponseEntity.ok(CommonResponse.success(
+                foodSpotService.getFoodSpotList(userId,keyword,page,size)));
     }
 
     @Operation(summary = "특정 맛집 정보 조회")
