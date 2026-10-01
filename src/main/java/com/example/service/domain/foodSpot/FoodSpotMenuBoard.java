@@ -30,15 +30,6 @@ public class FoodSpotMenuBoard  extends BaseTimeEntity {
     @Column(name="order_index")
     private Integer orderIndex;
 
-//    @CreationTimestamp
-//    @Column(name="created_at")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    private LocalDateTime createdAt;
-//
-//    @UpdateTimestamp
-//    @Column(name="updated_at")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    private LocalDateTime updatedAt;
 
     @Builder
     private FoodSpotMenuBoard(String name, int price, int orderIndex) {

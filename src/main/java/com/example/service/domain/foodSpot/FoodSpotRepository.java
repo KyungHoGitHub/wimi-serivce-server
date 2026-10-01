@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface FoodSpotRepository extends JpaRepository<FoodSpot, Long> {
 
@@ -24,4 +26,9 @@ public interface FoodSpotRepository extends JpaRepository<FoodSpot, Long> {
             @Param("keyword") String keyword,
             Pageable pageable
     );
+
+    void deleteByIdAndCreatedBy(Long id, String createdBy);
+
+    @EntityGraph(attributePaths = "menus")
+    Optional<FoodSpot> findWithMenusById(Long id);
 }

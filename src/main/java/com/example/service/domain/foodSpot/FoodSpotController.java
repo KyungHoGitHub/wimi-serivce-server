@@ -25,9 +25,9 @@ public class FoodSpotController {
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
-    ){
+    ) {
         return ResponseEntity.ok(CommonResponse.success(
-                foodSpotService.getFoodSpotList(userId,keyword,page,size)));
+                foodSpotService.getFoodSpotList(userId, keyword, page, size)));
     }
 
     @Operation(summary = "특정 맛집 정보 조회")
@@ -35,9 +35,10 @@ public class FoodSpotController {
     public ResponseEntity<CommonResponse<FoodSpotResponseDTO>> getFoodSpot(
             @PathVariable("id") Long foodSpotId,
             @AuthenticationPrincipal String userId
-    ){
+    ) {
+        FoodSpotResponseDTO foodSpotResponseDTO = foodSpotService.getFoodSpotDetail(foodSpotId, userId);
 
-        return ResponseEntity.ok(CommonResponse.of(null,null));
+        return ResponseEntity.ok(CommonResponse.success(foodSpotResponseDTO));
     }
 
     @Operation(summary = "맛집 정보 수정")
@@ -46,8 +47,10 @@ public class FoodSpotController {
             @PathVariable("id") Long foodSpotId,
             @AuthenticationPrincipal String userId,
             @Valid @RequestBody FoodSpotRequestDTO requestDTO
-    ){
-        return ResponseEntity.ok(CommonResponse.of(null,null));
+    ) {
+        foodSpotService.updateFoodSpot(foodSpotId, requestDTO, userId);
+
+        return ResponseEntity.ok(CommonResponse.of(null, null));
     }
 
     @Operation(summary = "맛집 생성 요청")
@@ -55,8 +58,8 @@ public class FoodSpotController {
     public ResponseEntity<CommonResponse<Void>> createFoodSpot(
             @AuthenticationPrincipal String userId,
             @Valid @RequestBody FoodSpotRequestDTO requestDTO
-    ){
-        foodSpotService.createFoodSpot(requestDTO,userId);
+    ) {
+        foodSpotService.createFoodSpot(requestDTO, userId);
         return ResponseEntity.ok(CommonResponse.created(null));
     }
 
@@ -65,8 +68,9 @@ public class FoodSpotController {
     public ResponseEntity<CommonResponse<Void>> deleteFoodSpot(
             @PathVariable("id") Long foodSpotId,
             @AuthenticationPrincipal String userId
-    ){
-        return ResponseEntity.ok(CommonResponse.of(null,null));
+    ) {
+        foodSpotService.deleteFoodSpot(foodSpotId, userId);
+        return ResponseEntity.ok(CommonResponse.success(null));
     }
 
 }

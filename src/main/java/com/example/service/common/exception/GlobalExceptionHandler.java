@@ -35,4 +35,9 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST) // 409
                 .body(CommonResponse.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
     }
+
+    @ExceptionHandler(FoodSpotNotFoundException.class)
+    public ResponseEntity<CommonResponse<Void>> handleFoodSpotNotFound(FoodSpotNotFoundException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CommonResponse.fail(HttpStatus.NOT_FOUND.value(), e.getMessage()));
+    }
 }

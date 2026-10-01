@@ -1,6 +1,7 @@
 package com.example.service.domain.foodSpot;
 
 import com.amazonaws.util.StringUtils;
+import com.example.service.common.exception.FoodSpotNotFoundException;
 import com.example.service.common.response.SliceResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,10 +20,10 @@ public class FoodSpotServiceImpl implements FoodSpotService {
 
     @Override
     @Transactional
-    public void createFoodSpot(FoodSpotRequestDTO requestDTO,String userId) {
+    public void createFoodSpot(FoodSpotRequestDTO requestDTO, String userId) {
 
         FoodSpot foodSpot = FoodSpot.builder()
-                        .name(requestDTO.getName())
+                .name(requestDTO.getName())
                 .menu(requestDTO.getMenu())
                 .address(requestDTO.getAddress())
                 .review(requestDTO.getReview())
@@ -58,5 +59,48 @@ public class FoodSpotServiceImpl implements FoodSpotService {
 
         return new SliceResponse<>(content, slice.hasNext());
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public FoodSpotResponseDTO getFoodSpotDetail(Long foodSpotId, String userId) {
+
+        FoodSpot foodSpot = foodSpotRepository.findById(foodSpotId).orElseThrow(() -> new FoodSpotNotFoundException(foodSpotId));
+
+        return FoodSpotResponseDTO.from(foodSpot);
+    }
+
+    @Override
+    public void deleteFoodSpot(Long foodSpotId, String userId) {
+        foodSpotRepository.deleteByIdAndCreatedBy(foodSpotId, userId);
+    }
+
+    @Override
+    @Transactional
+    public void updateFoodSpot(Long foodSpotId, FoodSpotRequestDTO requestDTO, String userId) {
+        FoodSpot foodSpot = foodSpotRepository.findById(foodSpotId).orElseThrow(() -> new FoodSpotNotFoundException(foodSpotId));
+
+        if(!foodSpot.isCreatedBy(userId)){
+            throw new FoodSpotNotFoundException(foodSpotId);
+        }
+
+        foodSpot.update(
+                requestDTO.getName(),
+                requestDTO.getMenu(),
+                requestDTO.getAddress(),
+                requestDTO.getReview(),
+                requestDTO.getImageKey(),
+                requestDTO.getLat(),
+                requestDTO.getLng()
+        );
+        foodSpot.replaceMenus(
+                requestDTO.getMenuPrices().stream()
+                        .map(m -> FoodSpotMenuBoard.builder()
+                                .name(m.getName())
+                                .price(m.getPrice())
+                                .orderIndex(m.getOrderIndex())
+                                .build())
+                        .toList()
+        );
     }
 }
