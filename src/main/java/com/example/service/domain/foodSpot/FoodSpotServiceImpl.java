@@ -70,6 +70,7 @@ public class FoodSpotServiceImpl implements FoodSpotService {
         return FoodSpotResponseDTO.from(foodSpot);
     }
 
+    @Transactional
     @Override
     public void deleteFoodSpot(Long foodSpotId, String userId) {
         foodSpotRepository.deleteByIdAndCreatedBy(foodSpotId, userId);

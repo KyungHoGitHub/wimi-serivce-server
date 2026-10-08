@@ -18,7 +18,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> getNotifications(String userId) {
-        return notificationRepository.findByUserId(userId);
+        return notificationRepository.findByUserIdAndIsReadFalseOrderByCreatedAtDesc(userId);
     }
 
     @Override
@@ -31,5 +31,10 @@ public class NotificationServiceImpl implements NotificationService {
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(()-> new RuntimeException("Notification not found: " + notificationId));
         notification.setIsRead(true);
         notificationRepository.save(notification);
+    }
+
+    @Override
+    public void markAsReadByReference(String userId, Type type, Long referenceId) {
+        notificationRepository.markAsReadByReference(userId, type, referenceId);
     }
 }

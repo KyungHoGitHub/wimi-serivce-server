@@ -11,4 +11,6 @@ public interface NotificationService {
     Long getUnreadCount(String userId);
 
     void readNotification(Long notificationId);
+
+    void markAsReadByReference(String userId, Type type, Long referenceId);
 }

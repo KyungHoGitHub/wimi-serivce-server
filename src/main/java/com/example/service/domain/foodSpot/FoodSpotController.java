@@ -50,7 +50,7 @@ public class FoodSpotController {
     ) {
         foodSpotService.updateFoodSpot(foodSpotId, requestDTO, userId);
 
-        return ResponseEntity.ok(CommonResponse.of(null, null));
+        return ResponseEntity.ok(CommonResponse.created(null));
     }
 
     @Operation(summary = "맛집 생성 요청")

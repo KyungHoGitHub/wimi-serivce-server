@@ -60,6 +60,8 @@ public class GroupInviteServiceImpl implements GroupInviteService {
                 .status(Status.IS_ABLED)
                 .build();
         groupMemberService.save(groupMember);
+
+        notificationService.markAsReadByReference(userId, Type.INVITE, inviteId);
     }
 
     @Override
